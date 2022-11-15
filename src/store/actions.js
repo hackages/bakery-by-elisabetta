@@ -1,16 +1,7 @@
-export const FILTER_ACTION = "FILTER";
-export const ADD_ACTION = "ADD";
+import { createAction } from "@reduxjs/toolkit";
 
-export function filterAction(payload) {
-  return {
-    type: FILTER_ACTION,
-    payload,
-  };
-}
+// export const FILTER_ACTION = "FILTER";
+// export const ADD_ACTION = "ADD";
 
-export function addAction(payload) {
-  return {
-    type: ADD_ACTION,
-    payload,
-  };
-}
+export const addProductAction = createAction("ADD_ACTION");
+export const filterProductAction = createAction("FILTER_ACTION");

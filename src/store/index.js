@@ -1,8 +1,20 @@
-import { legacy_createStore as createStore, combineReducers } from "redux";
-import { reducer as productsReducer } from "./reducer";
+import { filterReducer, productsReducer } from "./reducer";
+import { configureStore } from "@reduxjs/toolkit";
 
-const reducers = {
+const reducer = {
   products: productsReducer,
-  // users: usersReducer
+  searchTerm: filterReducer,
 };
-export const store = createStore(combineReducers(reducers));
+
+const preloadedState = {
+  products: [
+    { id: 1, name: "Croissant", price: 2 },
+    { id: 2, name: "Pain au chocolat", price: 3 },
+  ],
+  searchTerm: "",
+};
+
+export const store = configureStore({
+  reducer,
+  // preloadedState
+});

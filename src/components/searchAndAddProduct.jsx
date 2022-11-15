@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useProducts } from "../hooks/useProducts";
-import { addAction, filterAction } from "../store/actions";
+import { addProductAction, filterProductAction } from "../store/actions";
 
 export function SearchAndAddProduct() {
   const inputNameRef = useRef();
@@ -10,13 +10,19 @@ export function SearchAndAddProduct() {
   const dispatch = useDispatch();
 
   const addProductHandler = () => {
-    const payload= {
+    const payload = {
       name: inputNameRef.current.value,
-      price: inputPriceRef.current.value
-    }
-    dispatch(addAction(payload))
-    inputNameRef.current.value = ''
-  }
+      price: inputPriceRef.current.value,
+    };
+    dispatch(addProductAction(payload));
+    inputNameRef.current.value = "";
+    dispatch(filterProductAction(''))
+  };
+
+  const filterHandler = (event) => {
+    const action = filterProductAction(event.target.value);
+    dispatch(action);
+  };
 
   return (
     <>
@@ -24,7 +30,7 @@ export function SearchAndAddProduct() {
         type="text"
         ref={inputNameRef}
         placeholder="Search for products"
-        onChange={(event) => dispatch(filterAction(event.target.value))}
+        onChange={filterHandler}
       />
       {toggle && (
         <>
@@ -34,11 +40,7 @@ export function SearchAndAddProduct() {
             placeholder="enter price"
             defaultValue={2}
           />
-          <button
-            onClick={addProductHandler}
-          >
-            Add
-          </button>
+          <button onClick={addProductHandler}>Add</button>
         </>
       )}
     </>
