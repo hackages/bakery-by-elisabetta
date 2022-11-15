@@ -1,5 +1,6 @@
-import { createReducer } from "@reduxjs/toolkit";
+import { createReducer, createSlice, current } from "@reduxjs/toolkit";
 import { addProductAction, filterProductAction } from "./actions";
+import { fetchUser } from "./middleware";
 
 export const initialProducts = [
   { id: 1, name: "Croissant", price: 2 },
@@ -13,6 +14,30 @@ export const productsReducer = createReducer(initialProducts, (builder) => {
     products.push(product)
   });
 });
+
+const userSlice = createSlice({
+  name: 'userSlice',
+  initialState: {pending: false, user: {}, error: null},
+  reducers: {},
+  extraReducers: (builder) =>{
+    builder.addCase(fetchUser.fulfilled, (state, action) => {
+      state.user = action.payload 
+      return state;
+    })
+    
+    builder.addCase(fetchUser.pending, (data) => {
+      state.pending = true;
+      return state;
+    })
+
+    builder.addCase(fetchUser.rejected, (error) => {
+      state.error = error;
+      return state;
+    })
+  },
+})
+
+export const userReducer = userSlice.reducer
 
 export const filterReducer = createReducer("", (builder) => {
   builder.addCase(filterProductAction, (term, action) => {
