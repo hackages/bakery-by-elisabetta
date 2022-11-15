@@ -1,4 +1,4 @@
-import { createReducer, current } from "@reduxjs/toolkit";
+import { createReducer } from "@reduxjs/toolkit";
 import { addProductAction, filterProductAction } from "./actions";
 
 export const initialProducts = [
